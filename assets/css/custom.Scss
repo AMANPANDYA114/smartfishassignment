@@ -1,0 +1,201 @@
+// --------------------------------------------------------------
+//  Color Variables
+// --------------------------------------------------------------
+$primary-color: #e60000; // Red theme (shared by both buttons)
+$text-color: #000;
+$bg-color: #fff;
+$border-color: #ddd;
+$border-colors: #333; // Very light black tone (used by Apple, Bootstrap, etc.)
+
+// --------------------------------------------------------------
+//  Mixins
+// --------------------------------------------------------------
+@mixin flex-center($gap: 10px) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $gap;
+}
+
+@mixin transition($props: all, $time: 0.3s, $ease: ease) {
+  transition: $props $time $ease;
+}
+
+@mixin button-base($bg, $color, $border-color) {
+  @include flex-center(10px);
+  background: $bg;
+  color: $color;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px 20px;
+  border: 1.5px solid $border-color;
+  border-radius: 40px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  @include transition(all, 0.3s, ease);
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// --------------------------------------------------------------
+//  Shared Button Style (for extend)
+// --------------------------------------------------------------
+%button-shared {
+  @include button-base($bg-color, $text-color, $border-color);
+
+  span {
+    @include flex-center(0);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700; // slightly bold by default
+    transform: rotate(45deg);
+    @include transition(all, 0.3s, ease);
+  }
+}
+
+
+// --------------------------------------------------------------
+// ✉️ Contact Button (white → red on hover)
+// --------------------------------------------------------------
+.contact-btn {
+  @extend %button-shared;
+  background: $bg-color;
+  color: $text-color;
+  border-color: $border-colors;
+
+  // Enhanced span styling (bold + glow)
+  span {
+    background: $primary-color;
+    color: $bg-color;
+    border: 2px solid $primary-color;
+    font-weight: 800; // very bold
+    font-size: 16px;
+    box-shadow: 0 0 6px rgba($primary-color, 0.5); // subtle red glow
+  }
+
+  &:hover {
+    background: $primary-color;
+    color: #fff;
+
+    span {
+      background: #fff;
+      color: $primary-color;
+      border-color: #fff;
+      transform: rotate(90deg) scale(1.05);
+      box-shadow: 0 0 10px rgba($primary-color, 0.6);
+    }
+  }
+}
+
+// --------------------------------------------------------------
+// 📨 Submit Button (red → white on hover)
+// --------------------------------------------------------------
+.submit-btn {
+  @extend %button-shared;
+  background: $primary-color;
+  color: #fff;
+  border-color: $primary-color;
+
+  span {
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    color: $primary-color;
+    font-weight: 700;
+  }
+
+  &:hover {
+    background: $bg-color;
+    color: $primary-color;
+    border-color: $primary-color;
+
+    span {
+      background: $primary-color;
+      color: #fff;
+      transform: rotate(19deg) scale(1.05);
+    }
+  }
+}
+
+// --------------------------------------------------------------
+// 🔴 Header Button (red → white on hover)
+// --------------------------------------------------------------
+.header-btn {
+  @extend %button-shared;
+  background: $primary-color;
+  color: #fff;
+  border-color: $primary-color;
+  margin-left: 1.5rem; // same as Bootstrap's ms-5
+
+  span {
+    background: #fff;
+    color: $primary-color;
+    border: 2px solid #fff;
+    font-weight: 800;
+    font-size: 16px;
+    box-shadow: 0 0 6px rgba($primary-color, 0.5);
+  }
+
+  &:hover {
+    background: $bg-color;
+    color: $primary-color;
+    border-color: $primary-color;
+
+    span {
+      background: $primary-color;
+      color: #fff;
+      border-color: $primary-color;
+      transform: rotate(90deg) scale(1.05);
+      box-shadow: 0 0 10px rgba($primary-color, 0.6);
+    }
+  }
+
+  // ✅ Responsive behavior: hide on tablets and mobile
+  @media (max-width: 991px) { // Bootstrap md & below
+    display: none;
+  }
+}
+
+
+// --------------------------------------------------------------
+// Footer Styles
+// --------------------------------------------------------------
+.footer-bottom {
+  background-color: $primary-color; // Uses the existing primary color
+  color: #fff; // White text for contrast
+  padding: 1rem 0; // Same as py-3
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+
+    @media (min-width: 768px) {
+      flex-direction: row; // Row on md+
+    }
+
+    p {
+      margin: 0;
+      text-align: center;
+
+      &.text-md-start {
+        @media (min-width: 768px) {
+          text-align: left;
+        }
+      }
+
+      &.text-md-end {
+        @media (min-width: 768px) {
+          text-align: right;
+        }
+      }
+    }
+  }
+}
